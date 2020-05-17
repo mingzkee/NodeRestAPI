@@ -74,13 +74,21 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", upload.single("productImage"), (req, res, next) => {
-  console.log(req.file);
   // Parse the body through post request
+  console.log("TEST TEST");
+  console.log("FILE PATH==> " + req.file);
+  let imagePath;
+  if (req.file == undefined) {
+    imagePath = null;
+  } else {
+    imagePath = req.file.path;
+  }
+
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
-    productImage: req.file.path,
+    productImage: imagePath,
   });
   product
     .save()
